@@ -58,3 +58,6 @@ Injured 4 14 255
 Injured 4 15 681
 Injured 4 4 730
 Injured 5 4 13
+Injured 7 9 733
+Injured 8 10 443
+Injured 6 6 34

@@ -7,59 +7,49 @@ import rescueframework.MainFrame;
 import world.Robot;
 
 /**
- * RobotControl class to implement simple sensors.
- * Static sensors are cheap, small, battery powered devices dropped down on the site.
- * Their main purpose is to collect sensor data.
- * They perform no actions on their own.
+ * StaticSensorControl
+ * Control for static sensors.
+ * Strategy: Passive data collection and energy optimization.
+ * Since the framework automatically updates the shared map with the sensor's field of view,
+ * the sensor's only task is to stay alive (IDLE) until it runs out of battery.
  */
 public class StaticSensorControl extends AbstractRobotControl {
 	private AMSService amsService;
-	private RobotPerception internalWorldMap;
 
 	/**
-	 * Default constructor saving world robot object and perception interface
-	 *
-	 * @param robot
-	 *            The robot object in the world
-	 * @param perception
-	 *            Robot perceptions
+	 * Constructor
+	 * @param robot The robot object
+	 * @param perception Perception interface
 	 */
 	public StaticSensorControl(Robot robot, RobotPerception perception) {
 		super(robot, perception);
 		this.amsService = AMSService.getAMSService();
-		internalWorldMap = amsService.getInternalMap();
 		this.setRobotName("Sensor");
 	}
 
 	/**
-	 * This agent has no action on its own.
-	 * It is collecting sensor data in its surroundings.
-	 * @return IDLE Action
+	 * The sensor performs no active action, just observes.
+	 * The IDLE state consumes the least energy, 
+	 * maximizing lifespan and data collection time.
 	 */
 	@Override
 	public Action step() {
-		amsService.log(this, "monitoring my location...");
+		// We do not log every turn to avoid cluttering the console.
+		// In the background, `perception` updates the common map.
 		return Action.IDLE;
 	}
 	
 	/**
-	 * This method will be called during the initialization of the map.
-	 * The application puts the sensor nearby the returned value.
-	 * @param mapWidth the width of the map
-	 * @param mapHeight the height of the map
-	 * @return the X position of the sensor
+	 * Called during map initialization to determine sensor X coordinate.
 	 */
-	public static int generateXCoord(int mapWidth, int mapHeight) {	return MainFrame.randomBetween(0, mapWidth); }
+	public static int generateXCoord(int mapWidth, int mapHeight) {	
+		return MainFrame.randomBetween(0, mapWidth); 
+	}
 	
 	/**
-	 * This method will be called during the initialization of the map.
-	 * The application puts the sensor nearby the returned value.
-	 * @param mapWidth the width of the map
-	 * @param mapHeight the height of the map
-	 * @return the Y position of the sensor
+	 * Called during map initialization to determine sensor Y coordinate.
 	 */
 	public static int generateYCoord(int mapWidth, int mapHeight) {
 		return MainFrame.randomBetween(0, mapHeight);
 	}
-	
 }

@@ -1,27 +1,27 @@
 package rescueagents;
 
-import interfaces.CellInfo;
+import java.util.List;
+
+import interfaces.InjuredInfo;
 import interfaces.RobotPerception;
 import rescueframework.AbstractRobotControl;
 import rescueframework.Action;
+import world.Injured;
+import world.Path;
 import world.Robot;
 
 /**
- * RobotControl class to implement custom robot control strategies for rescue robots.
- * The main aim of rescue robots is to discover injured people and carry them to the exit.
+ * RescueRobotControl
+ * Logic for rescue robots. Goal: Discover injured people and transport them to exits.
+ * Coordinates via AMSService to avoid duplicated work.
  */
 public class RescueRobotControl extends AbstractRobotControl {
     private AMSService amsService;
     private RobotPerception internalWorldMap;
+    
+    // The ID of the currently targeted injured person (-1 if none)
+    private int currentTargetInjuredId = -1;
 
-    /**
-     * Default constructor saving world robot object and perception interface
-     *
-     * @param robot
-     *            The robot object in the world
-     * @param perception
-     *            Robot perceptions
-     */
     public RescueRobotControl(Robot robot, RobotPerception perception) {
         super(robot, perception);
         this.amsService = AMSService.getAMSService();
@@ -29,56 +29,121 @@ public class RescueRobotControl extends AbstractRobotControl {
         this.setRobotName("Rescue");
     }
 
-
-    /**
-     * Custom step strategy of the robot, implement your robot control here!
-     *
-     * @return one of the following actions:
-     * <b>Action.STEP_UP</b> for step up,
-     * <b>Action.STEP_RIGHT</b> for step right,
-     * <b>Action.STEP_DOWN</b> for step down,
-     * <b>Action.STEP_LEFT</b> for step left
-     * <b>Action.PICK_UP</b> for pick up injured,
-     * <b>Action.PUT_DOWN</b> for put down injured,
-     * <b>Action.IDLE</b> for doing nothing.
-     */
     @Override
-    public Action step() {     
-        path = null;
-        
-        // Rescue injured people
-        if (!robot.hasInjured()) {
-            if (robot.getLocation().hasInjured()){
-                AMSService.log(this, "picking up injured...");
-                return Action.PICK_UP;
-            } else {
-                AMSService.log(this, "calculating shortest injured path...");
-                path = internalWorldMap.getShortestInjuredPath(robot.getLocation());
+    public Action step() {
+        // 1. If we are carrying an injured person, take them to the nearest exit
+        if (robot.hasInjured()) {
+            // We are no longer chasing a target on the map since we picked one up
+            if (currentTargetInjuredId != -1) {
+                amsService.releaseInjured(currentTargetInjuredId, robot.getInstanceId());
+                currentTargetInjuredId = -1;
             }
-        } else {
+
             if (robot.getLocation().isExit()) {
-                AMSService.log(this, "putting down injured on exit cell");
+                AMSService.log(this, "Dropping off injured at exit.");
                 return Action.PUT_DOWN;
             } else {
-                AMSService.log(this, "calculating shortest exit path...");
+                // Path to nearest exit
                 path = internalWorldMap.getShortestExitPath(robot.getLocation());
+                if (path != null) {
+                    return amsService.moveRobotAlongPath(robot, path);
+                } else {
+                    AMSService.log(this, "Cannot find path to exit! Exploring...");
+                    path = internalWorldMap.getShortestUnknownPath(robot.getLocation());
+                     return amsService.moveRobotAlongPath(robot, path);
+                }
+            }
+        }
+
+        // 2. If not carrying anyone, check if we are standing on one
+        if (robot.getLocation().hasInjured()) {
+            Injured inj = robot.getLocation().getInjured();
+            // Only pick up if no one else claimed it, OR we claimed it
+            if (amsService.claimInjured(inj.id, robot.getInstanceId())) {
+                AMSService.log(this, "Picking up injured.");
+                return Action.PICK_UP;
+            } else {
+                 AMSService.log(this, "Injured here, but claimed by another robot. Searching for others.");
+            }
+        }
+
+        // 3. Find a target: The best available (unclaimed) injured person
+        // Optimization: Prioritize ALIVE people (+500 pts) over DEAD people (+200 pts)
+        InjuredInfo bestTarget = findBestInjuredTarget();
+
+        if (bestTarget != null) {
+            // Claim it
+            int id = ((Injured)bestTarget).id; // Casting needed to access specific ID in this framework
+            amsService.claimInjured(id, robot.getInstanceId());
+            currentTargetInjuredId = id;
+
+            // Go there using A* Search
+            path = world.AStarSearch.search((world.Cell)robot.getLocation(), (world.Cell)bestTarget.getLocation(), -1);
+            
+            if (path != null) {
+                return amsService.moveRobotAlongPath(robot, path);
+            }
+        }
+
+        // 4. If no known injured or unreachable, then EXPLORE
+        // Reset target if we had one but couldn't reach it/find path
+        if (currentTargetInjuredId != -1) {
+             amsService.releaseInjured(currentTargetInjuredId, robot.getInstanceId());
+             currentTargetInjuredId = -1;
+        }
+        
+        path = internalWorldMap.getShortestUnknownPath(robot.getLocation());
+        if (path != null) {
+            return amsService.moveRobotAlongPath(robot, path);
+        }
+
+        // 5. If everything is explored and no work left, go to exit and rest
+        if (!robot.getLocation().isExit()) {
+            path = internalWorldMap.getShortestExitPath(robot.getLocation());
+            return amsService.moveRobotAlongPath(robot, path);
+        }
+
+        return Action.IDLE;
+    }
+
+    /**
+     * Finds the best injured target.
+     * Strategy: Prioritizes ALIVE patients. Picks the closest one among the alive.
+     * If no alive patients are available, picks the closest dead patient.
+     */
+    private InjuredInfo findBestInjuredTarget() {
+        List<InjuredInfo> knownInjureds = internalWorldMap.getDiscoveredInjureds();
+        
+        InjuredInfo bestAlive = null;
+        int minAliveDist = Integer.MAX_VALUE;
+        
+        InjuredInfo bestDead = null;
+        int minDeadDist = Integer.MAX_VALUE;
+
+        for (InjuredInfo info : knownInjureds) {
+            if (amsService.isAvailableTarget(info, robot.getInstanceId())) {
+                int dist = robot.getLocation().rawDistanceFrom(info.getLocation());
+                
+                if (info.isAlive()) {
+                    if (dist < minAliveDist) {
+                        minAliveDist = dist;
+                        bestAlive = info;
+                    }
+                } else {
+                    if (dist < minDeadDist) {
+                        minDeadDist = dist;
+                        bestDead = info;
+                    }
+                }
             }
         }
         
-        // No path found - discover the whole map
-        if (path == null) {
-            AMSService.log(this, "calculating shortest unknown path...");
-            path = internalWorldMap.getShortestUnknownPath(robot.getLocation());
+        // Priority to alive patients
+        if (bestAlive != null) {
+            return bestAlive;
         }
         
-        if (path != null) { 
-            // Move the robot along the path
-            AMSService.log(this, "calculating next step along the path...");
-            return amsService.moveRobotAlongPath(robot, path);
-        } else {
-            // If no path found - the robot stays in place and does nothing
-            AMSService.log(this, "no path found. Stopping.");
-            return Action.IDLE;
-        }
+        // Fallback to dead patients (still worth +200 points)
+        return bestDead;
     }
 }
