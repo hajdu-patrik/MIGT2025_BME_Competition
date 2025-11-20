@@ -68,7 +68,6 @@ public class RescueRobotControl extends AbstractRobotControl {
         }
 
         // 3. Find a target: The best available (unclaimed) injured person
-        // Optimization: Prioritize ALIVE people (+500 pts) over DEAD people (+200 pts)
         InjuredInfo bestTarget = findBestInjuredTarget();
 
         if (bestTarget != null) {
@@ -86,7 +85,6 @@ public class RescueRobotControl extends AbstractRobotControl {
         }
 
         // 4. If no known injured or unreachable, then EXPLORE
-        // Reset target if we had one but couldn't reach it/find path
         if (currentTargetInjuredId != -1) {
              amsService.releaseInjured(currentTargetInjuredId, robot.getInstanceId());
              currentTargetInjuredId = -1;
@@ -106,11 +104,6 @@ public class RescueRobotControl extends AbstractRobotControl {
         return Action.IDLE;
     }
 
-    /**
-     * Finds the best injured target.
-     * Strategy: Prioritizes ALIVE patients. Picks the closest one among the alive.
-     * If no alive patients are available, picks the closest dead patient.
-     */
     private InjuredInfo findBestInjuredTarget() {
         List<InjuredInfo> knownInjureds = internalWorldMap.getDiscoveredInjureds();
         
@@ -143,7 +136,6 @@ public class RescueRobotControl extends AbstractRobotControl {
             return bestAlive;
         }
         
-        // Fallback to dead patients (still worth +200 points)
         return bestDead;
     }
 }

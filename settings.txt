@@ -1,4 +1,4 @@
-#Thu Nov 20 19:59:55 CET 2025
+#Thu Nov 20 20:31:47 CET 2025
 drone_agent_count=0
 height=800
 left=286
@@ -6,7 +6,7 @@ map=Default.txt
 maximized=1
 med_agent_count=1
 resc_agent_count=1
-speed=998
+speed=997
 static_sensor_count=0
 top=81
 width=1200
