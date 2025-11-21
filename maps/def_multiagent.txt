@@ -1,0 +1,192 @@
+// Map size
+30 20
+
+// Cell borders
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
+. . 4 4 4 4 4 4 . . . . . . . . . . . . . . 4 4 4 4 4 4 . . 
+. 2 9 1 1 1 1 3 C 4 4 4 4 4 4 4 4 4 4 4 4 6 9 1 1 1 1 3 8 . 
+. 2 8 . . . . . 3 9 1 1 3 9 1 1 3 9 1 1 3 9 . . . . . 2 8 . 
+. 2 8 . . . . . 2 8 . . 2 8 . . 2 8 . . 2 8 . . . . . 2 8 . 
+. 2 8 . . . . . 2 8 . . . . . . . . . . 2 8 . . . . . 2 8 . 
+. 2 8 . . . . . 2 C 4 _ 6 C _ 4 6 C _ 4 6 8 . . . . . 2 8 . 
+. 2 C 4 4 4 4 _ 6 9 1 . 1 1 1 1 1 1 . 1 3 C _ 4 4 4 4 6 8 . 
+. . 1 3 9 1 1 . 1 . . . . . . . . . . . . 1 . 1 1 3 9 1 . . 
+. X . . _ . . . . . . . . . . . . . . . . . . . . _ . . X . 
+. X . 2 C 4 . 4 4 4 4 . . . . . . . . 4 4 4 4 . 4 6 8 . X . 
+. . 4 6 9 1 _ 9 _ 1 3 8 . . . . . . 2 9 1 _ 3 _ 1 3 C 4 . . 
+. 2 9 1 . . 2 8 . . 2 8 . . . . . . 2 8 . . . . . . 1 3 8 . 
+. 2 8 . . . . . . . 2 8 . . . . . . 2 8 . . 2 8 . . . 2 8 . 
+. 2 8 . . . 2 8 . . 2 8 . . . . . . 2 8 . . 2 8 . . . 2 8 . 
+. 2 8 . . . 2 8 . . 2 C 4 4 _ _ 4 4 6 8 . . 2 8 . . . 2 8 . 
+. 2 8 . . . 2 8 . . 2 9 1 1 . . 1 1 3 8 . . 2 8 . . . 2 8 . 
+. 2 C 4 4 4 6 C 4 4 6 8 . . X X . . 2 C 4 4 6 C 4 4 4 6 8 . 
+. . 1 1 1 1 1 1 1 1 1 . . . S . . . . 1 1 1 1 1 1 1 1 1 . . 
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
+
+// Floors
+Floor 6 10 1
+Floor 3 3 0
+Floor 10 4 0
+Floor 14 4 0
+Floor 18 4 0
+Floor 22 4 0
+Floor 6 15 0
+Floor 10 15 0
+Floor 21 15 0
+Floor 24 15 0
+
+// Obstacles
+Obstacle 19 1 junk10
+Obstacle 2 2 sofa22
+Obstacle 3 2 sofa12
+Obstacle 4 2 junk10
+Obstacle 5 2 junk10
+Obstacle 6 2 desk11
+Obstacle 7 2 desk13
+Obstacle 9 2 junk10
+Obstacle 20 2 junk10
+Obstacle 27 2 junk10
+Obstacle 5 3 junk10
+Obstacle 6 3 junk10
+Obstacle 7 3 chair10
+Obstacle 9 3 desk12
+Obstacle 12 3 chair12
+Obstacle 17 3 chair12
+Obstacle 18 3 desk12
+Obstacle 20 3 chair33
+Obstacle 21 3 chair31
+Obstacle 23 3 chair32
+Obstacle 25 3 chair32
+Obstacle 26 3 chair32
+Obstacle 27 3 junk10
+Obstacle 2 4 desk12
+Obstacle 4 4 chair13
+Obstacle 5 4 junk10
+Obstacle 9 4 desk10
+Obstacle 11 4 desk11
+Obstacle 12 4 desk13
+Obstacle 13 4 desk11
+Obstacle 14 4 desk13
+Obstacle 18 4 desk10
+Obstacle 20 4 chair33
+Obstacle 22 4 desk11
+Obstacle 23 4 desk13
+Obstacle 25 4 desk11
+Obstacle 26 4 desk13
+Obstacle 2 5 desk10
+Obstacle 8 5 chair33
+Obstacle 9 5 sofa11
+Obstacle 22 5 chair30
+Obstacle 4 6 chair11
+Obstacle 8 6 desk11
+Obstacle 9 6 sofa21
+Obstacle 13 6 chair30
+Obstacle 16 6 desk10
+Obstacle 17 6 chair30
+Obstacle 19 6 sofa10
+Obstacle 20 6 sofa20
+Obstacle 27 6 chair33
+Obstacle 4 7 desk11
+Obstacle 5 7 desk13
+Obstacle 9 7 junk10
+Obstacle 23 7 junk10
+Obstacle 24 7 chair30
+Obstacle 25 7 chair30
+Obstacle 26 7 desk11
+Obstacle 27 7 desk13
+Obstacle 8 8 junk10
+Obstacle 9 8 static
+Obstacle 10 8 junk20
+Obstacle 16 8 junk10
+Obstacle 17 8 junk10
+Obstacle 27 8 junk10
+Obstacle 14 9 chair10
+Obstacle 13 10 desk10
+Obstacle 14 10 junk10
+Obstacle 15 10 chair11
+Obstacle 16 10 desk10
+Obstacle 22 10 junk10
+Obstacle 3 11 junk10
+Obstacle 4 11 desk11
+Obstacle 5 11 desk13
+Obstacle 7 11 desk12
+Obstacle 14 11 desk11
+Obstacle 15 11 desk13
+Obstacle 24 11 desk11
+Obstacle 25 11 desk13
+Obstacle 2 12 desk12
+Obstacle 3 12 junk10
+Obstacle 7 12 desk10
+Obstacle 9 12 chair12
+Obstacle 11 12 chair31
+Obstacle 19 12 desk12
+Obstacle 20 12 chair20
+Obstacle 25 12 chair23
+Obstacle 26 12 chair22
+Obstacle 27 12 desk12
+Obstacle 2 13 desk10
+Obstacle 3 13 chair10
+Obstacle 9 13 desk11
+Obstacle 10 13 desk13
+Obstacle 11 13 chair31
+Obstacle 18 13 chair33
+Obstacle 19 13 desk10
+Obstacle 23 13 junk10
+Obstacle 27 13 desk10
+Obstacle 5 14 chair13
+Obstacle 6 14 desk12
+Obstacle 9 14 desk11
+Obstacle 10 14 desk13
+Obstacle 18 14 chair33
+Obstacle 23 14 junk10
+Obstacle 27 14 junk10
+Obstacle 2 15 junk10
+Obstacle 6 15 desk10
+Obstacle 8 15 chair10
+Obstacle 11 15 chair30
+Obstacle 12 15 chair30
+Obstacle 13 15 chair30
+Obstacle 18 15 chair33
+Obstacle 21 15 desk11
+Obstacle 22 15 desk13
+Obstacle 23 15 desk12
+Obstacle 24 15 chair23
+Obstacle 2 16 junk10
+Obstacle 3 16 chair10
+Obstacle 5 16 junk10
+Obstacle 6 16 junk10
+Obstacle 10 16 chair10
+Obstacle 19 16 chair21
+Obstacle 22 16 chair23
+Obstacle 23 16 desk10
+Obstacle 27 16 chair23
+Obstacle 2 17 desk11
+Obstacle 3 17 desk13
+Obstacle 5 17 sofa10
+Obstacle 6 17 sofa20
+Obstacle 7 17 sofa10
+Obstacle 8 17 sofa20
+Obstacle 19 17 sofa10
+Obstacle 20 17 sofa20
+Obstacle 26 17 desk11
+Obstacle 27 17 desk13
+
+// Injureds
+Injured 11 3 752
+Injured 14 3 335
+Injured 15 3 910
+Injured 19 4 290
+Injured 26 5 165
+Injured 27 5 813
+Injured 8 13 523
+Injured 6 11 956
+Injured 4 15 250
+Injured 26 14 205
+Injured 20 14 619
+Injured 19 9 401
+Injured 16 9 733
+Injured 13 7 18
+Injured 4 8 525
+Injured 17 13 257
+Injured 17 14 539
+Injured 17 15 449
