@@ -5,7 +5,11 @@
 ![Optimization](https://img.shields.io/badge/Optimization-Resource_%26_Pathfinding-success?style=flat)
 ![Communication](https://img.shields.io/badge/Constraint-Low_Bandwidth_Comm-critical?style=flat)
 ![Competition](https://img.shields.io/badge/Event-BME_AI_Competition_2025-gold?style=flat&logo=trophy&logoColor=white)
+![Rank](https://img.shields.io/badge/Result-3rd_Place_(out_of_18)-F7B500?style=flat&logo=trophy&logoColor=white)
+
 # Artificial Intelligence and Machine Learning Competition
+
+> **🏆 Achievement:** Secured **3rd Place** out of 18 participants in this competitive algorithmic challenge.
 
 | Detail | Description |
 | :--- | :--- |
