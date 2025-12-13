@@ -67,3 +67,11 @@ Good results achieved in the competition will be taken into consideration by the
 ## Participation
 
 I participated in this competition and developed the code found in this repository to solve the task. My solution is built upon the **"Hive Mind" strategy**, where the robots (**Drones, Rescue Robots, Medical Robots**) coordinate exploration and rescue efforts through a **shared knowledge base** to maximize overall efficiency.
+
+---
+
+## 📦 Releases
+
+| Version | Description | Download |
+| :--- | :--- | :--- |
+| **v1.0.0** | **MIGT2025 v1.0.0** - Initial release of the competition solution. Contains the complete source code for the "Hive Mind" multi-agent strategy and simulation integration. | [Source code (zip)](https://github.com/hajdu-patrik/MIGT2025_BME_Competition/archive/refs/tags/v1.0.0.zip) |
