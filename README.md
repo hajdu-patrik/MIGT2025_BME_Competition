@@ -9,15 +9,21 @@
 
 # Artificial Intelligence and Machine Learning Competition
 
-**🏆 Achievement:** Secured **3rd Place** out of 18 participants in this competitive algorithmic challenge.
-
-![Artificial Intelligence and Machine Learning Competition 3rd Place certificate by BME]()
-
----
 
 ## Overview
 
 This document contains the solution developed for the **2025 Student Competition** organized by the Department of Artificial Intelligence and System Engineering. The competition's objective was to develop an **efficient, cooperative agent system** for simulating a modern **Urban Search and Rescue (USAR)** scenario.
+
+---
+
+## Achievement and Images
+<p align="center">
+    <img src="award%20ceremony/MI%20verseny%20helyezés.jpg" alt="Competition Certificate" width="900" style="padding: 5px;" />
+</p>
+<p align="center">
+    <img src="award%20ceremony/Díj%20átvétel.jpg" alt="Award Ceremony" width="350" style="padding: 5px;" />
+    <img src="award%20ceremony/Csoport%20kép.jpg" alt="Group Photo" width="350" style="padding: 5px;" />
+</p>
 
 ---
 
