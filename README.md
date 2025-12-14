@@ -11,7 +11,7 @@
 
 **🏆 Achievement:** Secured **3rd Place** out of 18 participants in this competitive algorithmic challenge.
 
-![Artificial Intelligence and Machine Learning Competition 3rd Place certificate by BME](https://github.com/hajdu-patrik/MIGT2025_BME_Competition/blob/main/MI%20verseny%20helyezés.jpg)
+![Artificial Intelligence and Machine Learning Competition 3rd Place certificate by BME]()
 
 ---
 
